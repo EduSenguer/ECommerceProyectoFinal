@@ -10,17 +10,15 @@ class Figura {
     agregarUnidadAlStock() {
         return this.quantity++;
       }
-    
-      quitarCantidadDelStock() {
-        return (this.quantity -= 1);
-      }
-    
+    quitarUnidad() {
+        return this.quantity--;
+    }
       actualizarPrecio() {
         return (this.totalPrice= this.Price * this.quantity);
       }
 }
 
-let carrito;
+let carrito = [];
 let figurasJSON = [];
 let body = document.querySelector("body");
 body.className = ("container bg-warning");
@@ -99,11 +97,10 @@ function agregarCarrito(id) {
 
 function quitarDelCarrito(id) {
     let index=carrito.findIndex(figura => figura.id==id);
-    carrito.splice(index,1);
+    carrito.splice(index, 1);
     let fila=document.getElementById(`fila${id}`);
     let tablabody=document.getElementById("tableBody");
     tablabody.removeChild(fila);
-
     Swal.fire({
         position: 'top-start',
         icon: 'error',
@@ -111,7 +108,6 @@ function quitarDelCarrito(id) {
         showConfirmButton: false,
         timer: 1500
       })
-   
 }
 
 function borrarCarrito() {
@@ -130,7 +126,7 @@ function imprimirDatosEnTabla(carro) {
     let totalPrice = getTotalPrice(carro);
     let tableBody = document.getElementById("tableBody");
     carro.forEach(figura => {
-        tableBody.innerHTML = `
+        tableBody.innerHTML += `
         <tr id="fila${figura.id}">
         <td>${figura.id}</td>
         <td>${figura.name}</td>
@@ -169,4 +165,3 @@ async function traerJSON() {
 }
 traerJSON(); 
 
-carrito = recuperarDelStorage();
